@@ -18,6 +18,7 @@ validate_input_files(samples)
 
 proj <- loadArchRProject(path = output_dir)
 project_cells <- rownames(getCellColData(proj))
+cell_metadata_before_rna <- as.data.frame(getCellColData(proj))
 project_chromosomes <- as.character(GenomicRanges::seqnames(proj@genomeAnnotation$chromSizes))
 
 prefix_rna_cell_names <- function(se_rna, sample_id) {
@@ -69,6 +70,12 @@ rna_list <- lapply(seq_len(nrow(samples)), function(i) {
   )
 })
 names(rna_list) <- samples$sample_id
+rna_matched_counts <- data.frame(
+  stage = "matched_cells_in_rna_h5_before_project_subset",
+  sample_id = names(rna_list),
+  n_cells = vapply(rna_list, ncol, integer(1)),
+  row.names = NULL
+)
 
 common_features <- Reduce(intersect, lapply(rna_list, rownames))
 if (length(common_features) == 0) {
@@ -237,6 +244,35 @@ file.copy(file.path(output_dir, "Plots", "rna_combined_umap.pdf"), file.path(fig
 
 cell_col_data <- as.data.frame(getCellColData(proj))
 write.csv(cell_col_data, file = file.path(output_dir, "cell_metadata_after_rna_combined.csv"), row.names = TRUE)
+cell_counts_summary <- rbind(
+  count_cells_by_sample(cell_metadata_before_rna, "before_rna_matching"),
+  rna_matched_counts,
+  count_cells_by_sample(cell_col_data, "after_rna_combined")
+)
+cell_counts_summary <- rbind(
+  cell_counts_summary,
+  aggregate(n_cells ~ stage, data = cell_counts_summary, sum) |>
+    transform(sample_id = "Total") |>
+    subset(select = c("stage", "sample_id", "n_cells"))
+)
+write.csv(
+  cell_counts_summary[order(cell_counts_summary$stage, cell_counts_summary$sample_id), ],
+  file = file.path(output_dir, "cell_counts_after_rna_combined.csv"),
+  row.names = FALSE
+)
+write_filter_settings(
+  path = file.path(output_dir, "filter_settings_script_04.csv"),
+  settings = list(
+    strict_match_rna_to_atac_cells = TRUE,
+    apply_rna_qc_filter = apply_rna_qc_filter,
+    rna_min_genes = rna_min_genes,
+    rna_max_genes = rna_max_genes,
+    rna_min_umi = rna_min_umi,
+    rna_max_umi = rna_max_umi,
+    gene_expression_matrix_added = TRUE,
+    note = "RNA QC thresholds are only applied when apply_rna_qc_filter is TRUE. Cells are always subset to those present in both ArchR and RNA H5 matrices."
+  )
+)
 
 saveArchRProject(ArchRProj = proj, outputDirectory = output_dir, load = FALSE)
 

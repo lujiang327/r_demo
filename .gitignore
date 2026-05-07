@@ -1,6 +1,7 @@
 .DS_Store
 .Rhistory
 .RData
+.Renviron
 .Rproj.user/
 Rplots.pdf
 

@@ -201,3 +201,86 @@ setup_archr_session <- function() {
     )
   )
 }
+
+count_cells_by_sample <- function(cell_metadata, stage) {
+  counts <- as.data.frame(table(cell_metadata$Sample), stringsAsFactors = FALSE)
+  colnames(counts) <- c("sample_id", "n_cells")
+  counts$stage <- stage
+  counts[, c("stage", "sample_id", "n_cells")]
+}
+
+write_cell_count_summary <- function(cell_metadata, path, stage) {
+  counts <- count_cells_by_sample(cell_metadata, stage)
+  counts <- rbind(
+    counts,
+    data.frame(stage = stage, sample_id = "Total", n_cells = sum(counts$n_cells))
+  )
+  write.csv(counts, file = path, row.names = FALSE)
+  invisible(counts)
+}
+
+write_filter_settings <- function(path, settings) {
+  settings_df <- data.frame(
+    setting = names(settings),
+    value = unlist(settings, use.names = FALSE),
+    stringsAsFactors = FALSE
+  )
+  write.csv(settings_df, file = path, row.names = FALSE)
+  invisible(settings_df)
+}
+
+count_cells_in_arrow_files <- function(arrow_files, stage = "after_arrow_qc_before_doublet_filter") {
+  if (!requireNamespace("rhdf5", quietly = TRUE)) {
+    stop("Package `rhdf5` is required to count cells in Arrow files.")
+  }
+
+  counts <- lapply(arrow_files, function(arrow_file) {
+    sample_id <- rhdf5::h5read(arrow_file, "Metadata/Sample")
+    cell_names <- rhdf5::h5read(arrow_file, "Metadata/CellNames")
+    data.frame(
+      stage = stage,
+      sample_id = as.character(sample_id[1]),
+      n_cells = length(cell_names),
+      stringsAsFactors = FALSE
+    )
+  })
+
+  do.call(rbind, counts)
+}
+
+count_unique_fragment_barcodes <- function(samples, stage = "raw_fragment_unique_barcodes_before_archr_qc") {
+  counts <- lapply(seq_len(nrow(samples)), function(i) {
+    fragment_path <- samples$fragment_path[i]
+    sample_id <- samples$sample_id[i]
+
+    if (!file.exists(fragment_path)) {
+      stop("Fragment file does not exist: ", fragment_path)
+    }
+
+    con <- gzfile(fragment_path, open = "rt")
+    on.exit(close(con), add = TRUE)
+
+    barcodes <- new.env(hash = TRUE, parent = emptyenv())
+    repeat {
+      lines <- readLines(con, n = 100000L)
+      if (length(lines) == 0) {
+        break
+      }
+
+      fields <- strsplit(lines, "\t", fixed = TRUE)
+      sample_barcodes <- vapply(fields, `[`, character(1), 4)
+      for (barcode in sample_barcodes) {
+        assign(barcode, TRUE, envir = barcodes)
+      }
+    }
+
+    data.frame(
+      stage = stage,
+      sample_id = sample_id,
+      n_cells = length(ls(barcodes, all.names = TRUE)),
+      stringsAsFactors = FALSE
+    )
+  })
+
+  do.call(rbind, counts)
+}
