@@ -68,6 +68,9 @@ settings <- list(
   rna_max_genes = rna_max_genes,
   rna_min_umi = rna_min_umi,
   rna_max_umi = rna_max_umi,
+  rna_lsi_var_features = rna_lsi_var_features,
+  rna_lsi_filter_quantile = rna_lsi_filter_quantile,
+  rna_lsi_total_features = ifelse(is.null(rna_lsi_total_features), "NULL", rna_lsi_total_features),
   raw_fragment_unique_barcodes_note = "Counts unique barcodes in the raw fragment file before ArchR minTSS/minFrags filtering; this includes low-quality and non-cell barcodes."
 )
 settings_path <- file.path(output_dir, "analysis_filter_settings.csv")

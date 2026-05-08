@@ -1,0 +1,13 @@
+"stage","sample_id","n_cells"
+"after_arrow_qc_before_doublet_filter","TH1",16233
+"after_arrow_qc_before_doublet_filter","TH2",16720
+"after_arrow_qc_before_doublet_filter","Total",32953
+"after_atac_clustering","TH1",13832
+"after_atac_clustering","TH2",14358
+"after_atac_clustering","Total",28190
+"after_qc_doublet_filter","TH1",13832
+"after_qc_doublet_filter","TH2",14358
+"after_qc_doublet_filter","Total",28190
+"after_rna_combined","TH1",13747
+"after_rna_combined","TH2",14220
+"after_rna_combined","Total",27967

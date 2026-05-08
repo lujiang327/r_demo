@@ -122,7 +122,49 @@ write_marker_table <- function(marker_sets, path) {
   write.csv(marker_df, file = path, row.names = FALSE)
 }
 
+summarize_marker_presence <- function(proj, matrix_name, marker_sets, path) {
+  se <- getMatrixFromProject(ArchRProj = proj, useMatrix = matrix_name)
+  mat <- get_first_assay(se)
+  feature_names <- get_feature_names(se)
+  rownames(mat) <- make.unique(feature_names)
+  marker_df <- do.call(rbind, lapply(names(marker_sets), function(module_name) {
+    genes <- marker_sets[[module_name]]
+    present <- genes %in% rownames(mat)
+    total_counts <- rep(NA_real_, length(genes))
+    mean_detected <- rep(NA_real_, length(genes))
+
+    if (any(present)) {
+      total_counts[present] <- Matrix::rowSums(mat[genes[present], , drop = FALSE])
+      mean_detected[present] <- Matrix::rowMeans(mat[genes[present], , drop = FALSE] > 0)
+    }
+
+    data.frame(
+      matrix = matrix_name,
+      module = module_name,
+      gene = genes,
+      present = present,
+      total_counts_or_score = total_counts,
+      fraction_cells_detected = mean_detected,
+      stringsAsFactors = FALSE
+    )
+  }))
+  write.csv(marker_df, file = path, row.names = FALSE)
+  invisible(marker_df)
+}
+
 write_marker_table(marker_sets, file.path(output_dir, "retinal_marker_sets.csv"))
+summarize_marker_presence(
+  proj = proj,
+  matrix_name = "GeneExpressionMatrix",
+  marker_sets = marker_sets,
+  path = file.path(output_dir, "marker_presence_gene_expression_matrix.csv")
+)
+summarize_marker_presence(
+  proj = proj,
+  matrix_name = "GeneScoreMatrix",
+  marker_sets = marker_sets,
+  path = file.path(output_dir, "marker_presence_gene_score_matrix.csv")
+)
 
 rna_scores <- module_scores_by_cluster(
   proj = proj,
@@ -166,11 +208,21 @@ cluster_annotation$tentative_celltype <- ifelse(
   cluster_annotation$gene_score_tentative_celltype,
   cluster_annotation$rna_tentative_celltype
 )
+cluster_annotation$mg_candidate <- cluster_annotation$rna_tentative_celltype == "MG" |
+  cluster_annotation$rna_second_module == "MG" |
+  cluster_annotation$gene_score_tentative_celltype == "MG" |
+  cluster_annotation$gene_score_second_module == "MG"
+cluster_annotation$annotation_note <- ifelse(
+  cluster_annotation$tentative_celltype != "MG" & cluster_annotation$mg_candidate,
+  "MG marker signal present but another identity module scored higher; inspect manually.",
+  ""
+)
 write.csv(cluster_annotation, file = file.path(output_dir, "cluster_tentative_celltype_annotations.csv"), row.names = FALSE)
 
 cell_metadata <- as.data.frame(getCellColData(proj))
 cell_annotation <- cluster_annotation[match(cell_metadata[[cluster_col]], cluster_annotation$cluster), ]
 cell_metadata$tentative_celltype <- cell_annotation$tentative_celltype
+cell_metadata$mg_candidate <- cell_annotation$mg_candidate
 write.csv(cell_metadata, file = file.path(output_dir, "cell_metadata_with_tentative_celltypes.csv"), row.names = TRUE)
 
 proj <- addCellColData(
@@ -178,6 +230,13 @@ proj <- addCellColData(
   data = cell_metadata$tentative_celltype,
   cells = rownames(cell_metadata),
   name = "TentativeCelltype",
+  force = TRUE
+)
+proj <- addCellColData(
+  ArchRProj = proj,
+  data = ifelse(cell_metadata$mg_candidate, "MG_candidate", "Not_MG_candidate"),
+  cells = rownames(cell_metadata),
+  name = "MGCandidate",
   force = TRUE
 )
 
@@ -230,8 +289,15 @@ p_sample <- plotEmbedding(
   name = "Sample",
   embedding = "UMAP_Combined"
 )
+p_mg_candidate <- plotEmbedding(
+  ArchRProj = proj,
+  colorBy = "cellColData",
+  name = "MGCandidate",
+  embedding = "UMAP_Combined"
+)
 plotPDF(
   p_celltype,
+  p_mg_candidate,
   p_cluster,
   p_sample,
   name = "tentative_celltypes_clusters_samples.pdf",

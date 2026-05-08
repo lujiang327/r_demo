@@ -147,7 +147,7 @@ if (isTRUE(apply_rna_qc_filter)) {
   proj <- proj[keep_cells]
 }
 
-proj <- addIterativeLSI(
+lsi_rna_args <- list(
   ArchRProj = proj,
   useMatrix = "GeneExpressionMatrix",
   depthCol = "Gex_nUMI",
@@ -158,12 +158,19 @@ proj <- addIterativeLSI(
     sampleCells = 10000,
     n.start = 10
   ),
-  varFeatures = 2500,
+  varFeatures = rna_lsi_var_features,
   firstSelection = "variable",
+  filterQuantile = rna_lsi_filter_quantile,
   binarize = FALSE,
   dimsToUse = 1:30,
   force = TRUE
 )
+
+if (!is.null(rna_lsi_total_features)) {
+  lsi_rna_args$totalFeatures <- as.integer(rna_lsi_total_features)
+}
+
+proj <- do.call(addIterativeLSI, lsi_rna_args)
 
 proj <- addCombinedDims(
   ArchRProj = proj,
@@ -269,6 +276,9 @@ write_filter_settings(
     rna_max_genes = rna_max_genes,
     rna_min_umi = rna_min_umi,
     rna_max_umi = rna_max_umi,
+    rna_lsi_var_features = rna_lsi_var_features,
+    rna_lsi_filter_quantile = rna_lsi_filter_quantile,
+    rna_lsi_total_features = ifelse(is.null(rna_lsi_total_features), "NULL", rna_lsi_total_features),
     gene_expression_matrix_added = TRUE,
     note = "RNA QC thresholds are only applied when apply_rna_qc_filter is TRUE. Cells are always subset to those present in both ArchR and RNA H5 matrices."
   )

@@ -42,3 +42,10 @@ rna_min_genes <- 500
 rna_max_genes <- 5000
 rna_min_umi <- 1000
 rna_max_umi <- 15000
+
+# RNA LSI feature-selection settings. `filterQuantile` controls removal of the
+# highest-count RNA features before variable-feature selection. A value of 1
+# keeps highly expressed genes available for RNA LSI feature selection.
+rna_lsi_var_features <- 2500
+rna_lsi_filter_quantile <- 1
+rna_lsi_total_features <- NULL

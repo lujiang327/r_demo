@@ -8,7 +8,6 @@ Rplots.pdf
 ArchRLogs/
 arrows/
 logs/
-results/
 refdata-cellranger-arc-*/
 Sample_*/
 
@@ -20,3 +19,15 @@ Sample_*/
 *.log
 *.pdf
 *.csv
+
+!results/
+!results/**/
+!results/**/*.csv
+!results/**/*.pdf
+results/**/*.rds
+results/**/*.tar
+results/**/*.arrow
+results/**/*.Arrow
+results/r_demo_archr/Plots/
+results/**/.DS_Store
+results/figures/parameter_sweep.zip
