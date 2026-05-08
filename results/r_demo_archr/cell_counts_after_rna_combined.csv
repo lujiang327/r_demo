@@ -1,7 +1,7 @@
 "stage","sample_id","n_cells"
-"after_rna_combined","TH1",13747
-"after_rna_combined","TH2",14220
-"after_rna_combined","Total",27967
+"after_rna_combined","TH1",13376
+"after_rna_combined","TH2",13869
+"after_rna_combined","Total",27245
 "before_rna_matching","TH1",13747
 "before_rna_matching","TH2",14220
 "before_rna_matching","Total",27967

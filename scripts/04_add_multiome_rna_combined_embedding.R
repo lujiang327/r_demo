@@ -138,10 +138,16 @@ plotPDF(
 file.copy(file.path(output_dir, "Plots", "rna_qc_by_sample.pdf"), file.path(figure_dir, "rna_qc"), overwrite = TRUE)
 
 if (isTRUE(apply_rna_qc_filter)) {
+  mito_pct <- proj$Gex_MitoRatio
+  if (max(mito_pct, na.rm = TRUE) <= 1) {
+    mito_pct <- mito_pct * 100
+  }
+
   keep_cells <- proj$Gex_nGenes >= rna_min_genes &
     proj$Gex_nGenes <= rna_max_genes &
     proj$Gex_nUMI >= rna_min_umi &
-    proj$Gex_nUMI <= rna_max_umi
+    proj$Gex_nUMI <= rna_max_umi &
+    mito_pct <= rna_max_mito_pct
 
   message("RNA QC filter keeping ", sum(keep_cells), " of ", length(keep_cells), " cells.")
   proj <- proj[keep_cells]
@@ -276,6 +282,7 @@ write_filter_settings(
     rna_max_genes = rna_max_genes,
     rna_min_umi = rna_min_umi,
     rna_max_umi = rna_max_umi,
+    rna_max_mito_pct = rna_max_mito_pct,
     rna_lsi_var_features = rna_lsi_var_features,
     rna_lsi_filter_quantile = rna_lsi_filter_quantile,
     rna_lsi_total_features = ifelse(is.null(rna_lsi_total_features), "NULL", rna_lsi_total_features),

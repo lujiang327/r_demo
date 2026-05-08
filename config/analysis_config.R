@@ -37,11 +37,12 @@ doublet_filter_cut_enrich <- 1
 
 # RNA QC settings for the Multiome H5 files. Keep filtering off until the RNA QC
 # plots have been inspected.
-apply_rna_qc_filter <- FALSE
-rna_min_genes <- 500
-rna_max_genes <- 5000
-rna_min_umi <- 1000
-rna_max_umi <- 15000
+apply_rna_qc_filter <- TRUE
+rna_min_genes <- 800
+rna_max_genes <- 8000
+rna_min_umi <- 1200
+rna_max_umi <- 30000
+rna_max_mito_pct <- 10
 
 # RNA LSI feature-selection settings. `filterQuantile` controls removal of the
 # highest-count RNA features before variable-feature selection. A value of 1

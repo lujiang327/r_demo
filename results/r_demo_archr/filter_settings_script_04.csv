@@ -1,6 +1,6 @@
 "setting","value"
 "strict_match_rna_to_atac_cells","TRUE"
-"apply_rna_qc_filter","FALSE"
+"apply_rna_qc_filter","TRUE"
 "rna_min_genes","500"
 "rna_max_genes","5000"
 "rna_min_umi","1000"

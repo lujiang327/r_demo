@@ -68,6 +68,7 @@ settings <- list(
   rna_max_genes = rna_max_genes,
   rna_min_umi = rna_min_umi,
   rna_max_umi = rna_max_umi,
+  rna_max_mito_pct = rna_max_mito_pct,
   rna_lsi_var_features = rna_lsi_var_features,
   rna_lsi_filter_quantile = rna_lsi_filter_quantile,
   rna_lsi_total_features = ifelse(is.null(rna_lsi_total_features), "NULL", rna_lsi_total_features),
