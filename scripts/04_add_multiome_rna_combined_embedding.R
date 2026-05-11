@@ -143,13 +143,19 @@ if (isTRUE(apply_rna_qc_filter)) {
     mito_pct <- mito_pct * 100
   }
 
-  keep_cells <- proj$Gex_nGenes >= rna_min_genes &
-    proj$Gex_nGenes <= rna_max_genes &
-    proj$Gex_nUMI >= rna_min_umi &
-    proj$Gex_nUMI <= rna_max_umi &
+  keep_cells <- !is.na(proj$TSSEnrichment) &
+    !is.na(proj$nFrags) &
+    !is.na(proj$Gex_nUMI) &
+    !is.na(proj$Gex_nGenes) &
+    proj$TSSEnrichment > combined_filter_min_tss &
+    proj$nFrags > combined_filter_min_frags &
+    proj$Gex_nGenes > rna_min_genes &
+    proj$Gex_nGenes < rna_max_genes &
+    proj$Gex_nUMI > rna_min_umi &
+    proj$Gex_nUMI < rna_max_umi &
     mito_pct <= rna_max_mito_pct
 
-  message("RNA QC filter keeping ", sum(keep_cells), " of ", length(keep_cells), " cells.")
+  message("Combined ATAC/RNA QC filter keeping ", sum(keep_cells), " of ", length(keep_cells), " cells.")
   proj <- proj[keep_cells]
 }
 
@@ -278,6 +284,8 @@ write_filter_settings(
   settings = list(
     strict_match_rna_to_atac_cells = TRUE,
     apply_rna_qc_filter = apply_rna_qc_filter,
+    combined_filter_min_tss = combined_filter_min_tss,
+    combined_filter_min_frags = combined_filter_min_frags,
     rna_min_genes = rna_min_genes,
     rna_max_genes = rna_max_genes,
     rna_min_umi = rna_min_umi,
@@ -287,7 +295,7 @@ write_filter_settings(
     rna_lsi_filter_quantile = rna_lsi_filter_quantile,
     rna_lsi_total_features = ifelse(is.null(rna_lsi_total_features), "NULL", rna_lsi_total_features),
     gene_expression_matrix_added = TRUE,
-    note = "RNA QC thresholds are only applied when apply_rna_qc_filter is TRUE. Cells are always subset to those present in both ArchR and RNA H5 matrices."
+    note = "When apply_rna_qc_filter is TRUE, combined ATAC/RNA thresholds are applied after RNA matching. Cells are always subset to those present in both ArchR and RNA H5 matrices."
   )
 )
 

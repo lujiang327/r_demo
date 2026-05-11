@@ -44,11 +44,15 @@ proj <- addDoubletScores(
   LSIMethod = 1
 )
 
-proj <- filterDoublets(
-  proj,
-  filterRatio = doublet_filter_ratio,
-  cutEnrich = doublet_filter_cut_enrich
-)
+if (isTRUE(apply_doublet_filter)) {
+  proj <- filterDoublets(
+    proj,
+    filterRatio = doublet_filter_ratio,
+    cutEnrich = doublet_filter_cut_enrich
+  )
+} else {
+  message("Skipping doublet removal; doublet scores are kept in cell metadata.")
+}
 
 qc_dir <- file.path(figure_dir, "qc")
 
@@ -65,16 +69,19 @@ write.csv(cell_col_data, file = file.path(output_dir, "cell_metadata_after_qc.cs
 write_cell_count_summary(
   cell_metadata = cell_col_data,
   path = file.path(output_dir, "cell_counts_after_qc.csv"),
-  stage = "after_qc_doublet_filter"
+  stage = if (isTRUE(apply_doublet_filter)) "after_qc_doublet_filter" else "after_qc_before_doublet_filter"
 )
 write_filter_settings(
   path = file.path(output_dir, "filter_settings_script_02.csv"),
   settings = list(
     min_tss_arrow_creation = min_tss,
     min_frags_arrow_creation = min_frags,
+    combined_filter_min_tss = combined_filter_min_tss,
+    combined_filter_min_frags = combined_filter_min_frags,
+    apply_doublet_filter = apply_doublet_filter,
     doublet_filter_ratio = doublet_filter_ratio,
     doublet_filter_cut_enrich = doublet_filter_cut_enrich,
-    note = "min_tss and min_frags are applied during createArrowFiles in script 01; doublet settings are applied in script 02."
+    note = "min_tss and min_frags are loose Arrow-creation filters applied during createArrowFiles in script 01. Stricter combined ATAC/RNA thresholds are applied in script 04. Doublet removal is disabled by default to match the reference /atac filtering workflow."
   )
 )
 

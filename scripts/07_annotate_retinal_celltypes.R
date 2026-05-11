@@ -7,6 +7,7 @@ suppressPackageStartupMessages({
   library(ArchR)
   library(SummarizedExperiment)
   library(Matrix)
+  library(ggplot2)
 })
 
 set.seed(random_seed)
@@ -152,6 +153,79 @@ summarize_marker_presence <- function(proj, matrix_name, marker_sets, path) {
   invisible(marker_df)
 }
 
+build_rna_expression_z_plots <- function(proj, genes, embedding_name = "UMAP_Combined") {
+  se <- getMatrixFromProject(ArchRProj = proj, useMatrix = "GeneExpressionMatrix")
+  mat <- get_first_assay(se)
+  feature_names <- get_feature_names(se)
+  rownames(mat) <- make.unique(feature_names)
+
+  embedding <- getEmbedding(proj, embedding = embedding_name, returnDF = TRUE)
+  if (ncol(embedding) != 2) {
+    stop("Embedding `", embedding_name, "` does not have exactly 2 columns.")
+  }
+  colnames(embedding) <- c("UMAP_1", "UMAP_2")
+
+  gene_lookup <- stats::setNames(rownames(mat), tolower(rownames(mat)))
+  available_genes <- genes[tolower(genes) %in% names(gene_lookup)]
+
+  z_summary <- vector("list", length(available_genes))
+  plots <- vector("list", length(available_genes))
+  for (i in seq_along(available_genes)) {
+    gene <- available_genes[[i]]
+    matrix_gene_name <- gene_lookup[[tolower(gene)]]
+    expression_values <- as.numeric(mat[matrix_gene_name, , drop = TRUE])
+    names(expression_values) <- colnames(mat)
+
+    common_cells <- intersect(rownames(embedding), names(expression_values))
+    if (length(common_cells) == 0) {
+      warning("No common cells between embedding and expression matrix for gene: ", gene)
+      next
+    }
+
+    expression_values <- expression_values[common_cells]
+    expression_sd <- stats::sd(expression_values)
+    expression_mean <- mean(expression_values)
+
+    if (is.na(expression_sd) || expression_sd == 0) {
+      z_values <- rep(0, length(expression_values))
+    } else {
+      z_values <- (expression_values - expression_mean) / expression_sd
+    }
+
+    plot_df <- data.frame(
+      embedding[common_cells, , drop = FALSE],
+      ExpressionZ = z_values
+    )
+
+    z_summary[[i]] <- data.frame(
+      gene = gene,
+      matrix_gene_name = matrix_gene_name,
+      expression_mean = expression_mean,
+      expression_sd = expression_sd,
+      min_z = min(z_values),
+      max_z = max(z_values),
+      stringsAsFactors = FALSE
+    )
+
+    plots[[i]] <- ggplot(plot_df, aes(x = UMAP_1, y = UMAP_2, color = ExpressionZ)) +
+      geom_point(size = 0.5) +
+      scale_color_gradientn(
+        colors = c("#D3D3D3", "#8B0000"),
+        limits = c(min(plot_df$ExpressionZ, na.rm = TRUE), max(plot_df$ExpressionZ, na.rm = TRUE)),
+        name = "ExpressionZ"
+      ) +
+      theme_minimal() +
+      ggtitle(paste0(project_name, " - ", gene)) +
+      labs(x = "UMAP_1", y = "UMAP_2")
+  }
+
+  keep <- !vapply(plots, is.null, logical(1))
+  list(
+    plots = plots[keep],
+    z_summary = if (any(keep)) do.call(rbind, z_summary[keep]) else data.frame()
+  )
+}
+
 write_marker_table(marker_sets, file.path(output_dir, "retinal_marker_sets.csv"))
 summarize_marker_presence(
   proj = proj,
@@ -254,21 +328,20 @@ marker_genes_to_plot <- unique(c(
 available_rna_features <- get_feature_names(getMatrixFromProject(proj, useMatrix = "GeneExpressionMatrix"))
 rna_features_to_plot <- intersect(marker_genes_to_plot, available_rna_features)
 if (length(rna_features_to_plot) > 0) {
-  p_rna_markers <- plotEmbedding(
-    ArchRProj = proj,
-    colorBy = "GeneExpressionMatrix",
-    name = rna_features_to_plot,
-    embedding = "UMAP_Combined"
+  z_score_result <- build_rna_expression_z_plots(proj, rna_features_to_plot)
+  write.csv(
+    z_score_result$z_summary,
+    file = file.path(output_dir, "rna_marker_expression_z_summary.csv"),
+    row.names = FALSE
   )
-  plotPDF(
-    plotList = p_rna_markers,
-    name = "rna_marker_umaps.pdf",
-    ArchRProj = proj,
-    addDOC = FALSE,
-    width = 5,
-    height = 5
-  )
-  file.copy(file.path(output_dir, "Plots", "rna_marker_umaps.pdf"), annotation_dir, overwrite = TRUE)
+
+  rna_marker_pdf <- file.path(annotation_dir, "rna_marker_umaps.pdf")
+  grDevices::pdf(rna_marker_pdf, width = 5, height = 5)
+  for (plot_obj in z_score_result$plots) {
+    print(plot_obj)
+  }
+  grDevices::dev.off()
+  file.copy(rna_marker_pdf, file.path(annotation_dir, "rna_marker_expression_z_umaps.pdf"), overwrite = TRUE)
 }
 
 p_celltype <- plotEmbedding(

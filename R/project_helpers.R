@@ -167,7 +167,15 @@ build_tenx_arc_gene_annotation <- function(reference_dir, keep_chromosomes = NUL
 
 setup_archr_session <- function() {
   addArchRLocking(locking = archr_locking)
-  addArchRThreads(threads = threads)
+  if (is.na(parallel::detectCores())) {
+    if (threads > 1) {
+      RNGkind("L'Ecuyer-CMRG")
+    }
+    options(ArchR.threads = as.integer(round(threads)))
+    message("Setting default number of Parallel threads to ", threads, ".")
+  } else {
+    addArchRThreads(threads = threads, force = TRUE)
+  }
 
   if (identical(genome_mode, "builtin")) {
     addArchRGenome(builtin_genome)

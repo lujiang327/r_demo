@@ -5,10 +5,18 @@ source(file.path("R", "project_helpers.R"))
 
 samples <- read_samples(sample_sheet)
 
-metadata_files <- c(
-  after_qc_doublet_filter = file.path(output_dir, "cell_metadata_after_qc.csv"),
-  after_atac_clustering = file.path(output_dir, "cell_metadata_after_clustering.csv"),
-  after_rna_combined = file.path(output_dir, "cell_metadata_after_rna_combined.csv")
+qc_stage <- if (isTRUE(apply_doublet_filter)) {
+  "after_qc_doublet_filter"
+} else {
+  "after_qc_before_doublet_filter"
+}
+metadata_files <- setNames(
+  c(
+    file.path(output_dir, "cell_metadata_after_qc.csv"),
+    file.path(output_dir, "cell_metadata_after_clustering.csv"),
+    file.path(output_dir, "cell_metadata_after_rna_combined.csv")
+  ),
+  c(qc_stage, "after_atac_clustering", "after_rna_combined")
 )
 arrow_files <- c(
   list.files(arrow_dir, pattern = "[.](a|A)rrow$", full.names = TRUE),
@@ -61,6 +69,9 @@ settings <- list(
   genome_annotation_chromosomes = paste(genome_annotation_chromosomes, collapse = ";"),
   min_tss_arrow_creation = min_tss,
   min_frags_arrow_creation = min_frags,
+  combined_filter_min_tss = combined_filter_min_tss,
+  combined_filter_min_frags = combined_filter_min_frags,
+  apply_doublet_filter = apply_doublet_filter,
   doublet_filter_ratio = doublet_filter_ratio,
   doublet_filter_cut_enrich = doublet_filter_cut_enrich,
   apply_rna_qc_filter = apply_rna_qc_filter,

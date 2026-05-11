@@ -17,7 +17,11 @@ chr_prefix <- TRUE
 gene_annotation_chromosomes <- paste0("chr", c(1:19, "X", "Y"))
 genome_annotation_chromosomes <- gene_annotation_chromosomes
 
-threads <- max(1, parallel::detectCores() - 1)
+detected_cores <- parallel::detectCores()
+if (is.na(detected_cores)) {
+  detected_cores <- 8
+}
+threads <- as.integer(max(1, detected_cores - 1))
 random_seed <- 1
 archr_locking <- TRUE
 
@@ -27,22 +31,28 @@ output_dir <- file.path("results", project_name)
 figure_dir <- file.path("results", "figures")
 log_dir <- "logs"
 
-# Starter QC thresholds. Review QC plots before treating these as final.
-min_tss <- 4
-min_frags <- 1000
+# Loose Arrow-creation thresholds matching /Users/louis/Desktop/lab/code/atac.
+# Stricter combined ATAC/RNA filtering is applied after RNA is added.
+min_tss <- 1
+min_frags <- 100
 
-# Doublet detection/removal settings.
+# Combined ATAC/RNA filtering thresholds matching /Users/louis/Desktop/lab/code/atac.
+combined_filter_min_tss <- 10
+combined_filter_min_frags <- 1000
+
+# Doublet detection/removal settings. The reference /atac workflow computes its
+# main QC filter without doublet removal, so removal is disabled by default here.
+apply_doublet_filter <- FALSE
 doublet_filter_ratio <- 1
 doublet_filter_cut_enrich <- 1
 
-# RNA QC settings for the Multiome H5 files. Keep filtering off until the RNA QC
-# plots have been inspected.
+# RNA QC settings for the Multiome H5 files.
 apply_rna_qc_filter <- TRUE
-rna_min_genes <- 800
-rna_max_genes <- 8000
-rna_min_umi <- 1200
+rna_min_genes <- 1000
+rna_max_genes <- 7000
+rna_min_umi <- 1500
 rna_max_umi <- 30000
-rna_max_mito_pct <- 10
+rna_max_mito_pct <- Inf
 
 # RNA LSI feature-selection settings. `filterQuantile` controls removal of the
 # highest-count RNA features before variable-feature selection. A value of 1
