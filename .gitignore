@@ -25,6 +25,8 @@ Sample_*/
 !results/**/*.csv
 !results/**/*.pdf
 !results/**/*.png
+results/figures/celltype_annotation/rna_marker_umaps.pdf
+results/figures/celltype_annotation/rna_marker_expression_z_umaps.pdf
 results/**/*.rds
 results/**/*.tar
 results/**/*.arrow

@@ -194,10 +194,16 @@ build_rna_expression_z_plots <- function(proj, genes, embedding_name = "UMAP_Com
       z_values <- (expression_values - expression_mean) / expression_sd
     }
 
+    color_limits <- stats::quantile(z_values, probs = c(0.01, 0.99), na.rm = TRUE)
+    if (!all(is.finite(color_limits)) || color_limits[1] == color_limits[2]) {
+      color_limits <- range(z_values, na.rm = TRUE)
+    }
+
     plot_df <- data.frame(
       embedding[common_cells, , drop = FALSE],
       ExpressionZ = z_values
     )
+    plot_df <- plot_df[order(plot_df$ExpressionZ), , drop = FALSE]
 
     z_summary[[i]] <- data.frame(
       gene = gene,
@@ -212,13 +218,19 @@ build_rna_expression_z_plots <- function(proj, genes, embedding_name = "UMAP_Com
     plots[[i]] <- ggplot(plot_df, aes(x = UMAP_1, y = UMAP_2, color = ExpressionZ)) +
       geom_point(size = 0.5) +
       scale_color_gradientn(
-        colors = c("#D3D3D3", "#8B0000"),
-        limits = c(min(plot_df$ExpressionZ, na.rm = TRUE), max(plot_df$ExpressionZ, na.rm = TRUE)),
+        colors = c("#D9D9D9", "#E7B8A8", "#C15A44", "#7F0000"),
+        limits = color_limits,
+        oob = scales::squish,
         name = "ExpressionZ"
       ) +
-      theme_minimal() +
+      theme_classic(base_size = 12) +
       ggtitle(paste0(project_name, " - ", gene)) +
-      labs(x = "UMAP_1", y = "UMAP_2")
+      labs(x = "UMAP_1", y = "UMAP_2") +
+      theme(
+        panel.grid = element_blank(),
+        axis.line = element_line(linewidth = 0.3, color = "black"),
+        axis.ticks = element_line(linewidth = 0.25, color = "black")
+      )
   }
 
   keep <- !vapply(plots, is.null, logical(1))
@@ -345,7 +357,6 @@ if (length(rna_features_to_plot) > 0) {
     print(plot_obj)
   }
   grDevices::dev.off()
-  file.copy(rna_marker_pdf, file.path(annotation_dir, "rna_marker_expression_z_umaps.pdf"), overwrite = TRUE)
 }
 
 p_celltype <- plotEmbedding(

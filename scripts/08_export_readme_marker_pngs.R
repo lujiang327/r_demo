@@ -91,22 +91,32 @@ for (gene_symbol in marker_genes_to_plot) {
     expr_zscore <- (expr_sub - mean(expr_sub)) / expr_sd
   }
 
+  color_limits <- stats::quantile(expr_zscore, probs = c(0.01, 0.99), na.rm = TRUE)
+  if (!all(is.finite(color_limits)) || color_limits[1] == color_limits[2]) {
+    color_limits <- range(expr_zscore, na.rm = TRUE)
+  }
+
   df <- data.frame(
     embedding[common_cells, , drop = FALSE],
     ExpressionZ = expr_zscore
   )
+  df <- df[order(df$ExpressionZ), , drop = FALSE]
 
   p <- ggplot(df, aes(x = UMAP_1, y = UMAP_2, color = ExpressionZ)) +
     geom_point(size = 0.2) +
     scale_color_gradientn(
-      colors = c("#D3D3D3", "#8B0000"),
-      limits = c(min(df$ExpressionZ, na.rm = TRUE), max(df$ExpressionZ, na.rm = TRUE)),
+      colors = c("#D9D9D9", "#E7B8A8", "#C15A44", "#7F0000"),
+      limits = color_limits,
+      oob = scales::squish,
       name = "ExpressionZ"
     ) +
-    theme_minimal(base_size = 11) +
+    theme_classic(base_size = 11) +
     ggtitle(gene_symbol) +
     labs(x = "UMAP_1", y = "UMAP_2") +
     theme(
+      panel.grid = element_blank(),
+      axis.line = element_line(linewidth = 0.3, color = "black"),
+      axis.ticks = element_line(linewidth = 0.25, color = "black"),
       plot.title = element_text(size = 14),
       legend.title = element_text(size = 9),
       legend.text = element_text(size = 8)
