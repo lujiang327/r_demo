@@ -1,0 +1,8 @@
+"setting","value"
+"source_cluster_col","Clusters_Combined"
+"target_cluster","C20"
+"reduced_dims","LSI_Combined"
+"embedding","UMAP_Combined"
+"global_resolutions","1.2,1.4,1.6"
+"c20_resolutions","0.8,1.2,1.6,2,2.5"
+"note","Review-only high-resolution clustering. This script does not save the ArchRProject or remove cells."

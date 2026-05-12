@@ -42,13 +42,13 @@ get_first_assay <- function(se) {
 marker_genes_to_plot <- unique(c(
   "Rho", "Gnat1", "Nrl", "Arr3", "Opn1mw", "Opn1sw",
   "Vsx1", "Vsx2", "Car10", "Prkca", "Sebox", "Scgn", "Cabp5", "Grm6",
-  "Tfap2a", "Gad1", "Gad2",
+  "Tfap2a", "Elavl3", "Slc32a1", "Slc6a9", "Dcx", "Chat", "Gad1", "Gad2",
   "Rlbp1", "Glul", "Dkk3", "Clu", "Apoe", "Aqp4",
   "Calb1", "Onecut1", "Rbpms", "Pou4f1", "Pou4f2",
   "Ttr", "Rdh5", "Rpe65", "S100b", "Gfap", "Pax2", "Pdgfra",
   "Ctss", "C1qa", "Cldn5", "Flt1", "Kcnj8", "Pecam1", "Acta2",
   "Cdk1", "Mki67", "Top2a", "Pcna",
-  "Ascl1", "Neurog2", "Insm1", "Atoh7", "Neurod1", "Otx2", "Crx", "Olig2", "Foxn4",
+  "Ascl1", "Neurog2", "Insm1", "Atoh7", "Neurod1", "Sox9", "Lhx2", "Sox2", "Otx2", "Crx", "Olig2", "Foxn4",
   "Fos", "Jun", "Stat3", "Lcn2", "Malat1"
 ))
 
