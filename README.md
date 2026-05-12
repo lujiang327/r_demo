@@ -20,6 +20,10 @@ uses the same GRCm39/mm39 reference for ArchR compatibility.
 
 Cells are first imported with loose Arrow-file thresholds, then filtered after
 the RNA matrix is added so ATAC and RNA QC are applied to the same cells.
+After first-pass annotation, old combined clusters `C1` and `C10` were removed
+and the ATAC/RNA/combined embeddings and clusters were recomputed.
+ArchR renumbers clusters after reclustering, so new labels named `C1` or `C10`
+can appear again; those are not the original excluded clusters.
 
 - Arrow creation minimum TSS: `1`
 - Arrow creation minimum fragments: `100`
@@ -42,10 +46,21 @@ Full settings:
 | TH2 | 16,720 | 16,054 | 96.0% |
 | Total | 32,953 | 31,747 | 96.3% |
 
+### Cluster Exclusion Summary
+
+| Sample | Before C1/C10 exclusion | Removed C1/C10 | After reclustering |
+| --- | ---: | ---: | ---: |
+| TH1 | 15,693 | 92 | 15,601 |
+| TH2 | 16,054 | 122 | 15,932 |
+| Total | 31,747 | 214 | 31,533 |
+
 Additional count tables:
 [cell_counts_after_qc.csv](results/r_demo_archr/cell_counts_after_qc.csv),
 [cell_counts_after_rna_combined.csv](results/r_demo_archr/cell_counts_after_rna_combined.csv), and
 [cell_counts_summary.csv](results/r_demo_archr/cell_counts_summary.csv).
+Cluster exclusion tables:
+[removed clusters](results/r_demo_archr/removed_clusters_before_reclustering.csv) and
+[post-exclusion counts](results/r_demo_archr/cell_counts_after_cluster_exclusion_reclustered.csv).
 
 ## UMAPs
 
@@ -53,13 +68,20 @@ Additional count tables:
 
 [Full PDF](results/figures/umap/umap_sample_clusters.pdf)
 
-<img src="results/readme_figures/atac_umap_sample_clusters.png" alt="ATAC UMAP" width="70%">
+<p>
+  <img src="results/readme_figures/atac_umap_sample.png" alt="ATAC UMAP by sample" width="45%">
+  <img src="results/readme_figures/atac_umap_clusters.png" alt="ATAC UMAP by cluster" width="45%">
+</p>
 
 ### RNA / Combined
 
 [Full PDF](results/figures/combined_umap/rna_combined_umap.pdf)
 
-<img src="results/readme_figures/rna_combined_umap.png" alt="RNA and combined UMAP" width="70%">
+<p>
+  <img src="results/readme_figures/rna_umap_sample.png" alt="RNA UMAP by sample" width="33%">
+  <img src="results/readme_figures/combined_umap_sample.png" alt="Combined UMAP by sample" width="33%">
+  <img src="results/readme_figures/combined_umap_clusters.png" alt="Combined UMAP by cluster" width="33%">
+</p>
 
 ## QCs
 
@@ -91,49 +113,6 @@ Additional count tables:
 Full PDFs:
 [TSS enrichment](results/figures/qc/tss_enrichment.pdf) and
 [RNA QC by sample](results/figures/rna_qc/rna_qc_by_sample.pdf).
-
-## Clusters
-
-Tentative annotations are marker-score based and should be treated as first-pass
-labels for review.
-
-[Full PDF](results/figures/celltype_annotation/tentative_celltypes_clusters_samples.pdf)
-
-<img src="results/readme_figures/tentative_celltypes_clusters_samples.png" alt="Tentative cell type labels" width="90%">
-
-### Tentative Cell Counts
-
-| Tentative cell type | TH1 | TH2 |
-| --- | ---: | ---: |
-| AC | 10,099 | 9,924 |
-| BC | 5,487 | 6,064 |
-| Microglia | 15 | 18 |
-| RGC | 92 | 48 |
-
-Full outputs:
-[cluster annotations](results/r_demo_archr/cluster_tentative_celltype_annotations.csv),
-[cell metadata with labels](results/r_demo_archr/cell_metadata_with_tentative_celltypes.csv), and
-[cell type counts](results/r_demo_archr/tentative_celltype_counts_by_sample.csv).
-
-## Cell Proportions
-
-These plots are descriptive only because there is one sample per condition.
-
-<p>
-  <img src="results/figures/proportions/celltype_proportions_stacked.png" alt="Cell type proportions" width="45%">
-  <img src="results/figures/proportions/celltype_proportion_delta.png" alt="Cell type proportion delta" width="45%">
-</p>
-
-<p>
-  <img src="results/figures/proportions/mg_candidate_proportions_stacked.png" alt="MG candidate proportions" width="45%">
-  <img src="results/figures/proportions/mg_candidate_proportion_delta.png" alt="MG candidate proportion delta" width="45%">
-</p>
-
-Full tables:
-[celltype proportions](results/r_demo_archr/celltype_proportions_by_sample.csv),
-[celltype TH2 vs TH1 comparison](results/r_demo_archr/celltype_proportion_comparison_TH2_vs_TH1.csv),
-[MG candidate proportions](results/r_demo_archr/mg_candidate_proportions_by_sample.csv), and
-[MG candidate comparison](results/r_demo_archr/mg_candidate_proportion_comparison_TH2_vs_TH1.csv).
 
 ## Marker Genes
 
@@ -230,10 +209,12 @@ Rscript scripts/01_create_arrows.R
 Rscript scripts/02_build_project_qc.R
 Rscript scripts/03_reduce_cluster_umap.R
 Rscript scripts/04_add_multiome_rna_combined_embedding.R
+Rscript scripts/12_remove_clusters_recluster.R
 Rscript scripts/05_summarize_cell_counts.R
 Rscript scripts/06_compare_clustering_parameters.R
 Rscript scripts/07_annotate_retinal_celltypes.R
 Rscript scripts/08_export_readme_marker_pngs.R
+Rscript scripts/13_export_readme_umaps.R
 Rscript scripts/09_celltype_proportions.R
 Rscript scripts/10_call_peaks_add_peak_matrix.R
 Rscript scripts/11_cluster_qc_violin_plots.R

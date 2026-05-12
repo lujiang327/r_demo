@@ -1,0 +1,8 @@
+"setting","value"
+"source_cluster_col","Clusters_Combined"
+"removed_clusters","C1,C10"
+"atac_lsi_recomputed","TRUE"
+"rna_lsi_recomputed","TRUE"
+"combined_lsi_recomputed","TRUE"
+"clusters_recomputed","Clusters,Clusters_RNA,Clusters_Combined"
+"note","Cells in the source Clusters_Combined labels C1 and C10 were removed after inspection, then ATAC/RNA/combined embeddings and clusters were recomputed. New cluster labels are renumbered by ArchR and may reuse C1 or C10 for different cells."

@@ -1,0 +1,10 @@
+"stage","sample_id","n_cells"
+"after_cluster_exclusion_reclustered","TH1",15601
+"after_cluster_exclusion_reclustered","TH2",15932
+"after_cluster_exclusion_reclustered","Total",31533
+"before_cluster_exclusion","TH1",15693
+"before_cluster_exclusion","TH2",16054
+"before_cluster_exclusion","Total",31747
+"removed_clusters_C1_C10","TH1",92
+"removed_clusters_C1_C10","TH2",122
+"removed_clusters_C1_C10","Total",214
