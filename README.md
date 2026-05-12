@@ -1,90 +1,105 @@
-# Day 0 Retina Multiome ArchR Analysis
+# Day 0 Retina Multiome: ArchR Preprocessing and QC
 
-This repository contains the ArchR analysis workflow and current result exports for
-two 10x Multiome retina samples collected at Day 0.
+This repository contains the current ArchR workflow and result previews for two
+10x Multiome retina samples collected at Day 0.
 
-## Samples
+### Samples
 
 | Sample | Genotype | Condition | Day | ATAC fragments | RNA feature matrix |
 | --- | --- | --- | --- | --- | --- |
 | TH1 | Chx10Cre | Control | Day0 | `Sample_15585-TH-1/atac_fragments.tsv.gz` | `Sample_15585-TH-1/filtered_feature_bc_matrix.h5` |
 | TH2 | Chx10Cre/Insm1 KO | KO | Day0 | `Sample_15585-TH-2/atac_fragments.tsv.gz` | `Sample_15585-TH-2/filtered_feature_bc_matrix.h5` |
 
-The raw 10x files are intentionally ignored by git. The sequencing core aligned
-the samples against `refdata-cellranger-arc-GRCm39-2024-A`; the scripts use the
-same GRCm39/mm39 reference for ArchR compatibility.
+Raw 10x output files are intentionally excluded from git. The sequencing core
+aligned both samples with `refdata-cellranger-arc-GRCm39-2024-A`; the project
+uses the same GRCm39/mm39 reference for ArchR compatibility.
 
-## Filtering
+### Filtering Thresholds
 
-Arrow files are created with loose thresholds, then stricter combined ATAC/RNA QC
-is applied after the RNA matrix is added.
+#### Cell Filtering Criteria
 
-| Step | Threshold |
-| --- | --- |
-| Arrow creation minimum TSS | `1` |
-| Arrow creation minimum fragments | `100` |
-| Combined QC TSS enrichment | `> 10` |
-| Combined QC ATAC fragments | `> 1000` |
-| RNA detected genes | `> 1000` and `< 7000` |
-| RNA UMIs | `> 1500` and `< 30000` |
-| RNA mitochondrial percent | no cutoff |
-| Doublet removal | disabled by default; doublet scores retained |
+Cells are first imported with loose Arrow-file thresholds, then filtered after
+the RNA matrix is added so ATAC and RNA QC are applied to the same cells.
+
+- Arrow creation minimum TSS: `1`
+- Arrow creation minimum fragments: `100`
+- Combined QC TSS enrichment: `> 10`
+- Combined QC ATAC fragments: `> 1000`
+- RNA detected genes: `> 1000` and `< 7000`
+- RNA UMIs: `> 1500` and `< 30000`
+- RNA mitochondrial percent: no cutoff in the current run
+- Doublet removal: disabled by default; doublet scores are retained
 
 Full settings:
-[script 02](results/r_demo_archr/filter_settings_script_02.csv),
+[script 02](results/r_demo_archr/filter_settings_script_02.csv) and
 [script 04](results/r_demo_archr/filter_settings_script_04.csv).
 
-## Cell Counts
+### Filtering Summary
 
-| Stage | TH1 | TH2 | Total |
+| Sample | Before combined filtering | After combined filtering | Retention |
 | --- | ---: | ---: | ---: |
-| After loose Arrow QC, before doublet filtering | 16,233 | 16,720 | 32,953 |
-| RNA H5 matched cells before project subset | 16,125 | 16,555 | 32,680 |
-| After combined ATAC/RNA filtering | 15,693 | 16,054 | 31,747 |
+| TH1 | 16,233 | 15,693 | 96.7% |
+| TH2 | 16,720 | 16,054 | 96.0% |
+| Total | 32,953 | 31,747 | 96.3% |
 
-Full tables:
+Additional count tables:
 [cell_counts_after_qc.csv](results/r_demo_archr/cell_counts_after_qc.csv),
-[cell_counts_after_rna_combined.csv](results/r_demo_archr/cell_counts_after_rna_combined.csv),
+[cell_counts_after_rna_combined.csv](results/r_demo_archr/cell_counts_after_rna_combined.csv), and
 [cell_counts_summary.csv](results/r_demo_archr/cell_counts_summary.csv).
 
 ## UMAPs
 
-### ATAC LSI
+### ATAC
 
 [Full PDF](results/figures/umap/umap_sample_clusters.pdf)
 
-![ATAC UMAP](results/readme_figures/atac_umap_sample_clusters.png)
+<img src="results/readme_figures/atac_umap_sample_clusters.png" alt="ATAC UMAP" width="70%">
 
-### RNA and Combined Embeddings
+### RNA / Combined
 
 [Full PDF](results/figures/combined_umap/rna_combined_umap.pdf)
 
-![RNA and combined UMAP](results/readme_figures/rna_combined_umap.png)
+<img src="results/readme_figures/rna_combined_umap.png" alt="RNA and combined UMAP" width="70%">
 
-## QC
+## QCs
 
-### ATAC TSS Enrichment
+### RNA
 
-[Full PDF](results/figures/qc/tss_enrichment.pdf)
+[Full PDF](results/figures/cluster_qc/Clusters_RNA_QC.pdf)
 
-![TSS enrichment](results/readme_figures/tss_enrichment.png)
+<img src="results/figures/cluster_qc/Clusters_RNA_QC.png" alt="RNA cluster QC" width="90%">
 
-### RNA QC
+### ATAC
 
-[Full PDF](results/figures/rna_qc/rna_qc_by_sample.pdf)
+[Full PDF](results/figures/cluster_qc/Clusters_ATAC_QC.pdf)
 
-![RNA QC by sample](results/readme_figures/rna_qc_by_sample.png)
+<img src="results/figures/cluster_qc/Clusters_ATAC_QC.png" alt="ATAC cluster QC" width="90%">
 
-## Cell Type Annotation
+### Combined
 
-Tentative labels are marker-score based and should be treated as first-pass
-annotations for review. Current marker panels emphasize retinal identity markers
-plus activation, proliferation, neurogenic transcription factor, and stress
-program markers.
+[Full PDF](results/figures/cluster_qc/Clusters_Combined_QC.pdf)
+
+<img src="results/figures/cluster_qc/Clusters_Combined_QC.png" alt="Combined cluster QC" width="90%">
+
+### Pre-filter QC Views
+
+<p>
+  <img src="results/readme_figures/tss_enrichment.png" alt="TSS enrichment" width="45%">
+  <img src="results/readme_figures/rna_qc_by_sample.png" alt="RNA QC by sample" width="45%">
+</p>
+
+Full PDFs:
+[TSS enrichment](results/figures/qc/tss_enrichment.pdf) and
+[RNA QC by sample](results/figures/rna_qc/rna_qc_by_sample.pdf).
+
+## Clusters
+
+Tentative annotations are marker-score based and should be treated as first-pass
+labels for review.
 
 [Full PDF](results/figures/celltype_annotation/tentative_celltypes_clusters_samples.pdf)
 
-![Tentative cell type labels](results/readme_figures/tentative_celltypes_clusters_samples.png)
+<img src="results/readme_figures/tentative_celltypes_clusters_samples.png" alt="Tentative cell type labels" width="90%">
 
 ### Tentative Cell Counts
 
@@ -97,76 +112,100 @@ program markers.
 
 Full outputs:
 [cluster annotations](results/r_demo_archr/cluster_tentative_celltype_annotations.csv),
-[cell metadata with labels](results/r_demo_archr/cell_metadata_with_tentative_celltypes.csv),
+[cell metadata with labels](results/r_demo_archr/cell_metadata_with_tentative_celltypes.csv), and
 [cell type counts](results/r_demo_archr/tentative_celltype_counts_by_sample.csv).
+
+## Cell Proportions
+
+These plots are descriptive only because there is one sample per condition.
+
+<p>
+  <img src="results/figures/proportions/celltype_proportions_stacked.png" alt="Cell type proportions" width="45%">
+  <img src="results/figures/proportions/celltype_proportion_delta.png" alt="Cell type proportion delta" width="45%">
+</p>
+
+<p>
+  <img src="results/figures/proportions/mg_candidate_proportions_stacked.png" alt="MG candidate proportions" width="45%">
+  <img src="results/figures/proportions/mg_candidate_proportion_delta.png" alt="MG candidate proportion delta" width="45%">
+</p>
+
+Full tables:
+[celltype proportions](results/r_demo_archr/celltype_proportions_by_sample.csv),
+[celltype TH2 vs TH1 comparison](results/r_demo_archr/celltype_proportion_comparison_TH2_vs_TH1.csv),
+[MG candidate proportions](results/r_demo_archr/mg_candidate_proportions_by_sample.csv), and
+[MG candidate comparison](results/r_demo_archr/mg_candidate_proportion_comparison_TH2_vs_TH1.csv).
 
 ## Marker Genes
 
-RNA marker UMAPs are plotted directly from the `GeneExpressionMatrix` using
-per-gene expression Z-scores on `UMAP_Combined`.
+RNA marker UMAPs are plotted from the `GeneExpressionMatrix` using per-gene
+expression Z-scores on `UMAP_Combined`.
 
 [Full marker PDF](results/figures/celltype_annotation/rna_marker_umaps.pdf)
 
-### Marker Gallery
-
 <p>
-  <img src="results/readme_figures/markers/Rho.png" width="180" alt="Rho">
-  <img src="results/readme_figures/markers/Gnat1.png" width="180" alt="Gnat1">
-  <img src="results/readme_figures/markers/Nrl.png" width="180" alt="Nrl">
-  <img src="results/readme_figures/markers/Arr3.png" width="180" alt="Arr3">
-  <img src="results/readme_figures/markers/Opn1mw.png" width="180" alt="Opn1mw">
-  <img src="results/readme_figures/markers/Opn1sw.png" width="180" alt="Opn1sw">
-  <img src="results/readme_figures/markers/Vsx1.png" width="180" alt="Vsx1">
-  <img src="results/readme_figures/markers/Vsx2.png" width="180" alt="Vsx2">
-  <img src="results/readme_figures/markers/Car10.png" width="180" alt="Car10">
-  <img src="results/readme_figures/markers/Tfap2a.png" width="180" alt="Tfap2a">
-  <img src="results/readme_figures/markers/Gad1.png" width="180" alt="Gad1">
-  <img src="results/readme_figures/markers/Gad2.png" width="180" alt="Gad2">
-  <img src="results/readme_figures/markers/Rlbp1.png" width="180" alt="Rlbp1">
-  <img src="results/readme_figures/markers/Glul.png" width="180" alt="Glul">
-  <img src="results/readme_figures/markers/Dkk3.png" width="180" alt="Dkk3">
-  <img src="results/readme_figures/markers/Clu.png" width="180" alt="Clu">
-  <img src="results/readme_figures/markers/Apoe.png" width="180" alt="Apoe">
-  <img src="results/readme_figures/markers/Aqp4.png" width="180" alt="Aqp4">
-  <img src="results/readme_figures/markers/Calb1.png" width="180" alt="Calb1">
-  <img src="results/readme_figures/markers/Onecut1.png" width="180" alt="Onecut1">
-  <img src="results/readme_figures/markers/Rbpms.png" width="180" alt="Rbpms">
-  <img src="results/readme_figures/markers/Pou4f1.png" width="180" alt="Pou4f1">
-  <img src="results/readme_figures/markers/Pou4f2.png" width="180" alt="Pou4f2">
-  <img src="results/readme_figures/markers/Ttr.png" width="180" alt="Ttr">
-  <img src="results/readme_figures/markers/Rdh5.png" width="180" alt="Rdh5">
-  <img src="results/readme_figures/markers/S100b.png" width="180" alt="S100b">
-  <img src="results/readme_figures/markers/Gfap.png" width="180" alt="Gfap">
-  <img src="results/readme_figures/markers/Ctss.png" width="180" alt="Ctss">
-  <img src="results/readme_figures/markers/C1qa.png" width="180" alt="C1qa">
-  <img src="results/readme_figures/markers/Cldn5.png" width="180" alt="Cldn5">
-  <img src="results/readme_figures/markers/Flt1.png" width="180" alt="Flt1">
-  <img src="results/readme_figures/markers/Cdk1.png" width="180" alt="Cdk1">
-  <img src="results/readme_figures/markers/Mki67.png" width="180" alt="Mki67">
-  <img src="results/readme_figures/markers/Top2a.png" width="180" alt="Top2a">
-  <img src="results/readme_figures/markers/Pcna.png" width="180" alt="Pcna">
-  <img src="results/readme_figures/markers/Ascl1.png" width="180" alt="Ascl1">
-  <img src="results/readme_figures/markers/Neurog2.png" width="180" alt="Neurog2">
-  <img src="results/readme_figures/markers/Insm1.png" width="180" alt="Insm1">
-  <img src="results/readme_figures/markers/Atoh7.png" width="180" alt="Atoh7">
-  <img src="results/readme_figures/markers/Neurod1.png" width="180" alt="Neurod1">
-  <img src="results/readme_figures/markers/Otx2.png" width="180" alt="Otx2">
-  <img src="results/readme_figures/markers/Crx.png" width="180" alt="Crx">
-  <img src="results/readme_figures/markers/Olig2.png" width="180" alt="Olig2">
-  <img src="results/readme_figures/markers/Foxn4.png" width="180" alt="Foxn4">
-  <img src="results/readme_figures/markers/Fos.png" width="180" alt="Fos">
-  <img src="results/readme_figures/markers/Jun.png" width="180" alt="Jun">
-  <img src="results/readme_figures/markers/Stat3.png" width="180" alt="Stat3">
-  <img src="results/readme_figures/markers/Lcn2.png" width="180" alt="Lcn2">
+  <img src="results/readme_figures/markers/Rho.png" alt="Rho" width="33%">
+  <img src="results/readme_figures/markers/Gnat1.png" alt="Gnat1" width="33%">
+  <img src="results/readme_figures/markers/Nrl.png" alt="Nrl" width="33%">
+  <img src="results/readme_figures/markers/Arr3.png" alt="Arr3" width="33%">
+  <img src="results/readme_figures/markers/Opn1mw.png" alt="Opn1mw" width="33%">
+  <img src="results/readme_figures/markers/Opn1sw.png" alt="Opn1sw" width="33%">
+  <img src="results/readme_figures/markers/Vsx1.png" alt="Vsx1" width="33%">
+  <img src="results/readme_figures/markers/Vsx2.png" alt="Vsx2" width="33%">
+  <img src="results/readme_figures/markers/Car10.png" alt="Car10" width="33%">
+  <img src="results/readme_figures/markers/Tfap2a.png" alt="Tfap2a" width="33%">
+  <img src="results/readme_figures/markers/Gad1.png" alt="Gad1" width="33%">
+  <img src="results/readme_figures/markers/Gad2.png" alt="Gad2" width="33%">
+  <img src="results/readme_figures/markers/Rlbp1.png" alt="Rlbp1" width="33%">
+  <img src="results/readme_figures/markers/Glul.png" alt="Glul" width="33%">
+  <img src="results/readme_figures/markers/Dkk3.png" alt="Dkk3" width="33%">
+  <img src="results/readme_figures/markers/Clu.png" alt="Clu" width="33%">
+  <img src="results/readme_figures/markers/Apoe.png" alt="Apoe" width="33%">
+  <img src="results/readme_figures/markers/Aqp4.png" alt="Aqp4" width="33%">
+  <img src="results/readme_figures/markers/Calb1.png" alt="Calb1" width="33%">
+  <img src="results/readme_figures/markers/Onecut1.png" alt="Onecut1" width="33%">
+  <img src="results/readme_figures/markers/Rbpms.png" alt="Rbpms" width="33%">
+  <img src="results/readme_figures/markers/Pou4f1.png" alt="Pou4f1" width="33%">
+  <img src="results/readme_figures/markers/Pou4f2.png" alt="Pou4f2" width="33%">
+  <img src="results/readme_figures/markers/Ttr.png" alt="Ttr" width="33%">
+  <img src="results/readme_figures/markers/Rdh5.png" alt="Rdh5" width="33%">
+  <img src="results/readme_figures/markers/S100b.png" alt="S100b" width="33%">
+  <img src="results/readme_figures/markers/Gfap.png" alt="Gfap" width="33%">
+  <img src="results/readme_figures/markers/Ctss.png" alt="Ctss" width="33%">
+  <img src="results/readme_figures/markers/C1qa.png" alt="C1qa" width="33%">
+  <img src="results/readme_figures/markers/Cldn5.png" alt="Cldn5" width="33%">
+  <img src="results/readme_figures/markers/Flt1.png" alt="Flt1" width="33%">
+  <img src="results/readme_figures/markers/Cdk1.png" alt="Cdk1" width="33%">
+  <img src="results/readme_figures/markers/Mki67.png" alt="Mki67" width="33%">
+  <img src="results/readme_figures/markers/Top2a.png" alt="Top2a" width="33%">
+  <img src="results/readme_figures/markers/Pcna.png" alt="Pcna" width="33%">
+  <img src="results/readme_figures/markers/Ascl1.png" alt="Ascl1" width="33%">
+  <img src="results/readme_figures/markers/Neurog2.png" alt="Neurog2" width="33%">
+  <img src="results/readme_figures/markers/Insm1.png" alt="Insm1" width="33%">
+  <img src="results/readme_figures/markers/Atoh7.png" alt="Atoh7" width="33%">
+  <img src="results/readme_figures/markers/Neurod1.png" alt="Neurod1" width="33%">
+  <img src="results/readme_figures/markers/Otx2.png" alt="Otx2" width="33%">
+  <img src="results/readme_figures/markers/Crx.png" alt="Crx" width="33%">
+  <img src="results/readme_figures/markers/Olig2.png" alt="Olig2" width="33%">
+  <img src="results/readme_figures/markers/Foxn4.png" alt="Foxn4" width="33%">
+  <img src="results/readme_figures/markers/Fos.png" alt="Fos" width="33%">
+  <img src="results/readme_figures/markers/Jun.png" alt="Jun" width="33%">
+  <img src="results/readme_figures/markers/Stat3.png" alt="Stat3" width="33%">
+  <img src="results/readme_figures/markers/Lcn2.png" alt="Lcn2" width="33%">
 </p>
 
 Marker tables:
 [marker sets](results/r_demo_archr/retinal_marker_sets.csv),
 [RNA marker presence](results/r_demo_archr/marker_presence_gene_expression_matrix.csv),
-[gene-score marker presence](results/r_demo_archr/marker_presence_gene_score_matrix.csv),
+[gene-score marker presence](results/r_demo_archr/marker_presence_gene_score_matrix.csv), and
 [ExpressionZ summary](results/r_demo_archr/rna_marker_expression_z_summary.csv).
-PNG export summary:
-[marker_png_summary.csv](results/readme_figures/marker_png_summary.csv).
+
+## Marker Peaks
+
+Peak calling is prepared in
+[`scripts/10_call_peaks_add_peak_matrix.R`](scripts/10_call_peaks_add_peak_matrix.R).
+The script builds group coverages by `Clusters_Combined`, calls reproducible
+peaks with MACS2, adds a peak matrix, and exports the updated project. Complete
+this step before interpreting differential accessibility or marker peaks.
 
 ## Run Order
 
@@ -182,9 +221,13 @@ Rscript scripts/04_add_multiome_rna_combined_embedding.R
 Rscript scripts/05_summarize_cell_counts.R
 Rscript scripts/06_compare_clustering_parameters.R
 Rscript scripts/07_annotate_retinal_celltypes.R
+Rscript scripts/08_export_readme_marker_pngs.R
+Rscript scripts/09_celltype_proportions.R
+Rscript scripts/10_call_peaks_add_peak_matrix.R
+Rscript scripts/11_cluster_qc_violin_plots.R
 ```
 
-If VS Code resolves `Rscript` to system R, use:
+If VS Code resolves `Rscript` to system R, use the conda Rscript directly:
 
 ```sh
 /Users/louis/miniforge3/envs/archr/bin/Rscript scripts/07_annotate_retinal_celltypes.R

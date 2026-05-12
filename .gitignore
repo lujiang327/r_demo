@@ -24,6 +24,7 @@ Sample_*/
 !results/**/
 !results/**/*.csv
 !results/**/*.pdf
+!results/**/*.png
 results/**/*.rds
 results/**/*.tar
 results/**/*.arrow

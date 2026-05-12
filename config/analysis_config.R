@@ -60,3 +60,20 @@ rna_max_mito_pct <- Inf
 rna_lsi_var_features <- 2500
 rna_lsi_filter_quantile <- 1
 rna_lsi_total_features <- NULL
+
+# Peak calling settings. MACS2 must be available on PATH, or set MACS2_PATH to
+# the executable path before running script 10.
+peak_group_by <- "Clusters_Combined"
+peak_path_to_macs2 <- Sys.getenv("MACS2_PATH", unset = "")
+peak_min_cells_group_coverages <- 40
+peak_max_cells_group_coverages <- 500
+peak_min_replicates <- 2
+peak_max_replicates <- 5
+peak_reproducibility <- "2"
+peak_genome_size <- "mm"
+peak_max_peaks <- 150000
+peak_peaks_per_cell <- 500
+peak_min_cells <- 25
+peak_exclude_chr <- c("chrM", "chrY")
+peak_force_group_coverages <- FALSE
+peak_force_peak_set <- TRUE

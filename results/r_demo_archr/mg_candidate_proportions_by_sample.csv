@@ -1,0 +1,5 @@
+"stage","sample_id","group","n_cells","sample_total","proportion","percent"
+"mg_candidate","TH1","MG_candidate",8347,15693,0.531893200790161,53.1893200790161
+"mg_candidate","TH1","Not_MG_candidate",7346,15693,0.468106799209839,46.8106799209839
+"mg_candidate","TH2","MG_candidate",8490,16054,0.528840164444998,52.8840164444998
+"mg_candidate","TH2","Not_MG_candidate",7564,16054,0.471159835555002,47.1159835555002
