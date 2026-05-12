@@ -8,6 +8,11 @@
 "Vsx1","results/readme_figures/markers/Vsx1.png",-0.00913247581082476,157.415712757561
 "Vsx2","results/readme_figures/markers/Vsx2.png",-0.718588635234473,8.72471137688101
 "Car10","results/readme_figures/markers/Car10.png",-0.165411497462352,18.9096449123901
+"Prkca","results/readme_figures/markers/Prkca.png",-0.666499429547814,11.7030318768821
+"Sebox","results/readme_figures/markers/Sebox.png",-0.0133168676276566,109.852665264202
+"Scgn","results/readme_figures/markers/Scgn.png",-0.014837885724944,105.825947562607
+"Cabp5","results/readme_figures/markers/Cabp5.png",-0.0679422962974314,42.8879913903763
+"Grm6","results/readme_figures/markers/Grm6.png",-0.0204740026408143,66.3128008833142
 "Tfap2a","results/readme_figures/markers/Tfap2a.png",-0.274280762279813,21.4365704067844
 "Gad1","results/readme_figures/markers/Gad1.png",-0.216616204726409,20.3483012544566
 "Gad2","results/readme_figures/markers/Gad2.png",-0.431819879502066,15.4957360023939
@@ -24,12 +29,18 @@
 "Pou4f2","results/readme_figures/markers/Pou4f2.png",-0.106765124152203,37.0777991414038
 "Ttr","results/readme_figures/markers/Ttr.png",-0.0343262761336914,77.2502996161476
 "Rdh5","results/readme_figures/markers/Rdh5.png",-0.152117615613864,28.815605269309
+"Rpe65","results/readme_figures/markers/Rpe65.png",-0.0206803643410898,92.2519752325118
 "S100b","results/readme_figures/markers/S100b.png",-0.0969889394416709,73.1654406173128
 "Gfap","results/readme_figures/markers/Gfap.png",-0.0366036208604734,105.913892584071
+"Pax2","results/readme_figures/markers/Pax2.png",-0.0394834319765657,52.8346554781703
+"Pdgfra","results/readme_figures/markers/Pdgfra.png",-0.095739346763385,36.9197221213909
 "Ctss","results/readme_figures/markers/Ctss.png",-0.0499023203004554,67.3796371263487
 "C1qa","results/readme_figures/markers/C1qa.png",-0.0566040634920273,51.6349968663515
 "Cldn5","results/readme_figures/markers/Cldn5.png",-0.150310611721333,25.6523571602987
 "Flt1","results/readme_figures/markers/Flt1.png",-0.132114728442903,41.0835008081106
+"Kcnj8","results/readme_figures/markers/Kcnj8.png",-0.00968072226479389,110.548612724657
+"Pecam1","results/readme_figures/markers/Pecam1.png",-0.0938129174193205,33.3454017232516
+"Acta2","results/readme_figures/markers/Acta2.png",-0.0174255259248502,95.2276654381393
 "Cdk1","results/readme_figures/markers/Cdk1.png",-0.468859978911082,13.9703982036547
 "Mki67","results/readme_figures/markers/Mki67.png",-0.634895085120907,12.7562258890836
 "Top2a","results/readme_figures/markers/Top2a.png",-0.67589939905925,9.20177826593762
@@ -47,3 +58,4 @@
 "Jun","results/readme_figures/markers/Jun.png",-0.364140574981725,28.3487449170321
 "Stat3","results/readme_figures/markers/Stat3.png",-0.252559883226152,19.1906708305603
 "Lcn2","results/readme_figures/markers/Lcn2.png",-0.010989016076303,145.531796194208
+"Malat1","results/readme_figures/markers/Malat1.png",-2.23201650872642,5.85854933925701

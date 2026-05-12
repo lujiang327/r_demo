@@ -105,8 +105,8 @@ labels for review.
 
 | Tentative cell type | TH1 | TH2 |
 | --- | ---: | ---: |
-| AC | 9,046 | 9,074 |
-| BC | 6,540 | 6,914 |
+| AC | 10,099 | 9,924 |
+| BC | 5,487 | 6,064 |
 | Microglia | 15 | 18 |
 | RGC | 92 | 48 |
 
@@ -138,9 +138,9 @@ Full tables:
 ## Marker Genes
 
 RNA marker UMAPs are plotted from the `GeneExpressionMatrix` using per-gene
-expression Z-scores on `UMAP_Combined`.
-
-[Full marker PDF](results/figures/celltype_annotation/rna_marker_umaps.pdf)
+expression Z-scores on `UMAP_Combined`. The gallery includes retinal identity
+markers, added bipolar/astrocyte/endothelial-pericyte/RPE markers, neurogenic
+and stress markers, and `Malat1` as a low-quality diagnostic.
 
 <p>
   <img src="results/readme_figures/markers/Rho.png" alt="Rho" width="33%">
@@ -152,6 +152,11 @@ expression Z-scores on `UMAP_Combined`.
   <img src="results/readme_figures/markers/Vsx1.png" alt="Vsx1" width="33%">
   <img src="results/readme_figures/markers/Vsx2.png" alt="Vsx2" width="33%">
   <img src="results/readme_figures/markers/Car10.png" alt="Car10" width="33%">
+  <img src="results/readme_figures/markers/Prkca.png" alt="Prkca" width="33%">
+  <img src="results/readme_figures/markers/Sebox.png" alt="Sebox" width="33%">
+  <img src="results/readme_figures/markers/Scgn.png" alt="Scgn" width="33%">
+  <img src="results/readme_figures/markers/Cabp5.png" alt="Cabp5" width="33%">
+  <img src="results/readme_figures/markers/Grm6.png" alt="Grm6" width="33%">
   <img src="results/readme_figures/markers/Tfap2a.png" alt="Tfap2a" width="33%">
   <img src="results/readme_figures/markers/Gad1.png" alt="Gad1" width="33%">
   <img src="results/readme_figures/markers/Gad2.png" alt="Gad2" width="33%">
@@ -168,12 +173,18 @@ expression Z-scores on `UMAP_Combined`.
   <img src="results/readme_figures/markers/Pou4f2.png" alt="Pou4f2" width="33%">
   <img src="results/readme_figures/markers/Ttr.png" alt="Ttr" width="33%">
   <img src="results/readme_figures/markers/Rdh5.png" alt="Rdh5" width="33%">
+  <img src="results/readme_figures/markers/Rpe65.png" alt="Rpe65" width="33%">
   <img src="results/readme_figures/markers/S100b.png" alt="S100b" width="33%">
   <img src="results/readme_figures/markers/Gfap.png" alt="Gfap" width="33%">
+  <img src="results/readme_figures/markers/Pax2.png" alt="Pax2" width="33%">
+  <img src="results/readme_figures/markers/Pdgfra.png" alt="Pdgfra" width="33%">
   <img src="results/readme_figures/markers/Ctss.png" alt="Ctss" width="33%">
   <img src="results/readme_figures/markers/C1qa.png" alt="C1qa" width="33%">
   <img src="results/readme_figures/markers/Cldn5.png" alt="Cldn5" width="33%">
   <img src="results/readme_figures/markers/Flt1.png" alt="Flt1" width="33%">
+  <img src="results/readme_figures/markers/Kcnj8.png" alt="Kcnj8" width="33%">
+  <img src="results/readme_figures/markers/Pecam1.png" alt="Pecam1" width="33%">
+  <img src="results/readme_figures/markers/Acta2.png" alt="Acta2" width="33%">
   <img src="results/readme_figures/markers/Cdk1.png" alt="Cdk1" width="33%">
   <img src="results/readme_figures/markers/Mki67.png" alt="Mki67" width="33%">
   <img src="results/readme_figures/markers/Top2a.png" alt="Top2a" width="33%">
@@ -191,6 +202,7 @@ expression Z-scores on `UMAP_Combined`.
   <img src="results/readme_figures/markers/Jun.png" alt="Jun" width="33%">
   <img src="results/readme_figures/markers/Stat3.png" alt="Stat3" width="33%">
   <img src="results/readme_figures/markers/Lcn2.png" alt="Lcn2" width="33%">
+  <img src="results/readme_figures/markers/Malat1.png" alt="Malat1" width="33%">
 </p>
 
 Marker tables:

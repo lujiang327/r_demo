@@ -26,15 +26,16 @@ if (!cluster_col %in% colnames(as.data.frame(getCellColData(proj)))) {
 identity_marker_sets <- list(
   Rod = c("Rho", "Gnat1", "Pde6a", "Pde6b", "Cnga1", "Nr2e3", "Nrl", "Prph2", "Rom1"),
   Cone = c("Pde6h", "Arr3", "Opn1mw", "Gnat2", "Pde6c", "Opn1sw"),
-  BC = c("Vsx1", "Vsx2", "Car10", "Otx2os1", "Gng13", "Nrxn3", "Gabrb3", "Trnp1", "Kcnma1", "Frmd3", "Gm4792", "Nyap2"),
+  BC = c("Vsx1", "Vsx2", "Car10", "Prkca", "Sebox", "Scgn", "Cabp5", "Grm6", "Otx2os1", "Gng13", "Nrxn3", "Gabrb3", "Trnp1", "Kcnma1", "Frmd3", "Gm4792", "Nyap2"),
   AC = c("Tfap2a", "Tfap2b", "Pax6", "Frmd5", "Nrg3", "Elavl3", "Gad1", "Gad2"),
   MG = c("Rlbp1", "Glul", "Dkk3", "Adamtsl1", "Gpr37", "Abca8a", "Rgs6", "Spc25", "Clu", "Apoe", "Aqp4"),
   HC = c("Calb1", "Onecut1", "Slc4a3", "Onecut2", "Gm45459", "C1ql1"),
   RGC = c("Nefl", "Stmn2", "Nrn1", "Pou4f1", "Pou4f2", "Sncg", "Rbpms"),
-  RPE = c("Ttr", "Rdh5", "Rgr", "Slc16a8"),
-  Astrocyte = c("S100b", "Gfap", "Mlc1", "Prdx6", "Pdgfra"),
+  RPE = c("Ttr", "Rdh5", "Rpe65", "Rgr", "Slc16a8"),
+  Astrocyte = c("S100b", "Gfap", "Pax2", "Pdgfra", "Mlc1", "Prdx6"),
   Microglia = c("Ctss", "C1qa", "Hexb", "Trem2"),
-  Endothelial = c("Cldn5", "Flt1", "Ly6c1", "Ptprb")
+  Endothelial = c("Cldn5", "Flt1", "Pecam1", "Ly6c1", "Ptprb"),
+  Pericyte = c("Kcnj8", "Acta2", "Pdgfra")
 )
 
 state_marker_sets <- list(
@@ -42,7 +43,8 @@ state_marker_sets <- list(
   Proliferation = c("Cdk1", "Mki67", "Top2a", "Pcna", "Mcm5"),
   Neurogenic_TF = c("Ascl1", "Neurog2", "Insm1", "Atoh7", "Neurod1", "Otx2", "Crx", "Olig2", "Foxn4"),
   Neurogenic_Progenitor = c("Ascl1", "Neurog2", "Neurod1", "Atoh7", "Sox2", "Hes1", "Hes5", "Insm1", "Prdm1", "Otx2", "Crx", "Olig2", "Foxn4"),
-  Stress_Response = c("Fos", "Jun", "Atf3", "Ddit3", "Hspa1a", "Hspa1b", "Gadd45b")
+  Stress_Response = c("Fos", "Jun", "Atf3", "Ddit3", "Hspa1a", "Hspa1b", "Gadd45b"),
+  Low_Quality_Diagnostic = c("Malat1")
 )
 marker_sets <- c(identity_marker_sets, state_marker_sets)
 identity_marker_set_names <- names(identity_marker_sets)
@@ -316,13 +318,15 @@ proj <- addCellColData(
 
 marker_genes_to_plot <- unique(c(
   "Rho", "Gnat1", "Nrl", "Arr3", "Opn1mw", "Opn1sw",
-  "Vsx1", "Vsx2", "Car10", "Tfap2a", "Gad1", "Gad2",
+  "Vsx1", "Vsx2", "Car10", "Prkca", "Sebox", "Scgn", "Cabp5", "Grm6",
+  "Tfap2a", "Gad1", "Gad2",
   "Rlbp1", "Glul", "Dkk3", "Clu", "Apoe", "Aqp4",
   "Calb1", "Onecut1", "Rbpms", "Pou4f1", "Pou4f2",
-  "Ttr", "Rdh5", "S100b", "Gfap", "Ctss", "C1qa", "Cldn5", "Flt1",
+  "Ttr", "Rdh5", "Rpe65", "S100b", "Gfap", "Pax2", "Pdgfra",
+  "Ctss", "C1qa", "Cldn5", "Flt1", "Kcnj8", "Pecam1", "Acta2",
   "Cdk1", "Mki67", "Top2a", "Pcna",
   "Ascl1", "Neurog2", "Insm1", "Atoh7", "Neurod1", "Otx2", "Crx", "Olig2", "Foxn4",
-  "Fos", "Jun", "Stat3", "Lcn2"
+  "Fos", "Jun", "Stat3", "Lcn2", "Malat1"
 ))
 
 available_rna_features <- get_feature_names(getMatrixFromProject(proj, useMatrix = "GeneExpressionMatrix"))

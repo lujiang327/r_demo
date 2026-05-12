@@ -1,9 +1,9 @@
 "tentative_celltype","sample_id","n_cells"
-"AC","TH1",9046
-"BC","TH1",6540
+"AC","TH1",10099
+"BC","TH1",5487
 "Microglia","TH1",15
 "RGC","TH1",92
-"AC","TH2",9074
-"BC","TH2",6914
+"AC","TH2",9924
+"BC","TH2",6064
 "Microglia","TH2",18
 "RGC","TH2",48
