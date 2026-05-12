@@ -107,13 +107,66 @@ per-gene expression Z-scores on `UMAP_Combined`.
 
 [Full marker PDF](results/figures/celltype_annotation/rna_marker_umaps.pdf)
 
-![RNA marker ExpressionZ UMAPs](results/readme_figures/rna_marker_umaps.png)
+### Marker Gallery
+
+<p>
+  <img src="results/readme_figures/markers/Rho.png" width="180" alt="Rho">
+  <img src="results/readme_figures/markers/Gnat1.png" width="180" alt="Gnat1">
+  <img src="results/readme_figures/markers/Nrl.png" width="180" alt="Nrl">
+  <img src="results/readme_figures/markers/Arr3.png" width="180" alt="Arr3">
+  <img src="results/readme_figures/markers/Opn1mw.png" width="180" alt="Opn1mw">
+  <img src="results/readme_figures/markers/Opn1sw.png" width="180" alt="Opn1sw">
+  <img src="results/readme_figures/markers/Vsx1.png" width="180" alt="Vsx1">
+  <img src="results/readme_figures/markers/Vsx2.png" width="180" alt="Vsx2">
+  <img src="results/readme_figures/markers/Car10.png" width="180" alt="Car10">
+  <img src="results/readme_figures/markers/Tfap2a.png" width="180" alt="Tfap2a">
+  <img src="results/readme_figures/markers/Gad1.png" width="180" alt="Gad1">
+  <img src="results/readme_figures/markers/Gad2.png" width="180" alt="Gad2">
+  <img src="results/readme_figures/markers/Rlbp1.png" width="180" alt="Rlbp1">
+  <img src="results/readme_figures/markers/Glul.png" width="180" alt="Glul">
+  <img src="results/readme_figures/markers/Dkk3.png" width="180" alt="Dkk3">
+  <img src="results/readme_figures/markers/Clu.png" width="180" alt="Clu">
+  <img src="results/readme_figures/markers/Apoe.png" width="180" alt="Apoe">
+  <img src="results/readme_figures/markers/Aqp4.png" width="180" alt="Aqp4">
+  <img src="results/readme_figures/markers/Calb1.png" width="180" alt="Calb1">
+  <img src="results/readme_figures/markers/Onecut1.png" width="180" alt="Onecut1">
+  <img src="results/readme_figures/markers/Rbpms.png" width="180" alt="Rbpms">
+  <img src="results/readme_figures/markers/Pou4f1.png" width="180" alt="Pou4f1">
+  <img src="results/readme_figures/markers/Pou4f2.png" width="180" alt="Pou4f2">
+  <img src="results/readme_figures/markers/Ttr.png" width="180" alt="Ttr">
+  <img src="results/readme_figures/markers/Rdh5.png" width="180" alt="Rdh5">
+  <img src="results/readme_figures/markers/S100b.png" width="180" alt="S100b">
+  <img src="results/readme_figures/markers/Gfap.png" width="180" alt="Gfap">
+  <img src="results/readme_figures/markers/Ctss.png" width="180" alt="Ctss">
+  <img src="results/readme_figures/markers/C1qa.png" width="180" alt="C1qa">
+  <img src="results/readme_figures/markers/Cldn5.png" width="180" alt="Cldn5">
+  <img src="results/readme_figures/markers/Flt1.png" width="180" alt="Flt1">
+  <img src="results/readme_figures/markers/Cdk1.png" width="180" alt="Cdk1">
+  <img src="results/readme_figures/markers/Mki67.png" width="180" alt="Mki67">
+  <img src="results/readme_figures/markers/Top2a.png" width="180" alt="Top2a">
+  <img src="results/readme_figures/markers/Pcna.png" width="180" alt="Pcna">
+  <img src="results/readme_figures/markers/Ascl1.png" width="180" alt="Ascl1">
+  <img src="results/readme_figures/markers/Neurog2.png" width="180" alt="Neurog2">
+  <img src="results/readme_figures/markers/Insm1.png" width="180" alt="Insm1">
+  <img src="results/readme_figures/markers/Atoh7.png" width="180" alt="Atoh7">
+  <img src="results/readme_figures/markers/Neurod1.png" width="180" alt="Neurod1">
+  <img src="results/readme_figures/markers/Otx2.png" width="180" alt="Otx2">
+  <img src="results/readme_figures/markers/Crx.png" width="180" alt="Crx">
+  <img src="results/readme_figures/markers/Olig2.png" width="180" alt="Olig2">
+  <img src="results/readme_figures/markers/Foxn4.png" width="180" alt="Foxn4">
+  <img src="results/readme_figures/markers/Fos.png" width="180" alt="Fos">
+  <img src="results/readme_figures/markers/Jun.png" width="180" alt="Jun">
+  <img src="results/readme_figures/markers/Stat3.png" width="180" alt="Stat3">
+  <img src="results/readme_figures/markers/Lcn2.png" width="180" alt="Lcn2">
+</p>
 
 Marker tables:
 [marker sets](results/r_demo_archr/retinal_marker_sets.csv),
 [RNA marker presence](results/r_demo_archr/marker_presence_gene_expression_matrix.csv),
 [gene-score marker presence](results/r_demo_archr/marker_presence_gene_score_matrix.csv),
 [ExpressionZ summary](results/r_demo_archr/rna_marker_expression_z_summary.csv).
+PNG export summary:
+[marker_png_summary.csv](results/readme_figures/marker_png_summary.csv).
 
 ## Run Order
 
