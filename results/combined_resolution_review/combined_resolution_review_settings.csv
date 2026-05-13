@@ -1,0 +1,7 @@
+"setting","value"
+"current_cluster_col","Clusters_Combined"
+"reduced_dims","LSI_Combined"
+"embedding","UMAP_Combined"
+"resolutions_to_try","1.2,1.4"
+"clusters_of_interest","C18,C19,C20"
+"note","Review-only combined clustering. This script does not save the ArchRProject or overwrite final clusters."
