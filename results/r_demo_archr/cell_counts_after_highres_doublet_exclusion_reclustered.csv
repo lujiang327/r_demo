@@ -1,0 +1,10 @@
+"stage","sample_id","n_cells"
+"after_highres_doublet_exclusion_reclustered","TH1",14260
+"after_highres_doublet_exclusion_reclustered","TH2",14602
+"after_highres_doublet_exclusion_reclustered","Total",28862
+"before_highres_doublet_exclusion","TH1",15601
+"before_highres_doublet_exclusion","TH2",15932
+"before_highres_doublet_exclusion","Total",31533
+"removed_highres_r1p4_C7_C8_C9","TH1",1341
+"removed_highres_r1p4_C7_C8_C9","TH2",1330
+"removed_highres_r1p4_C7_C8_C9","Total",2671
