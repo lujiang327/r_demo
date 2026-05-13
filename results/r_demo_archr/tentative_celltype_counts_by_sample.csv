@@ -1,7 +1,9 @@
 "tentative_celltype","sample_id","n_cells"
-"AC","TH1",10707
-"BC","TH1",4786
-"RGC","TH1",108
-"AC","TH2",10954
-"BC","TH2",4918
-"RGC","TH2",60
+"AC","TH1",3186
+"BC","TH1",5168
+"MG","TH1",5479
+"RGC","TH1",427
+"AC","TH2",2846
+"BC","TH2",5538
+"MG","TH2",5919
+"RGC","TH2",299

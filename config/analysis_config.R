@@ -61,6 +61,12 @@ rna_lsi_var_features <- 2500
 rna_lsi_filter_quantile <- 1
 rna_lsi_total_features <- NULL
 
+# Primary combined UMAP visualization settings selected after parameter review.
+combined_umap_dims_to_use <- 1:40
+combined_umap_n_neighbors <- 30
+combined_umap_min_dist <- 0.4
+combined_umap_metric <- "cosine"
+
 # Peak calling settings. MACS2 must be available on PATH, or set MACS2_PATH to
 # the executable path before running script 10.
 peak_group_by <- "Clusters_Combined"

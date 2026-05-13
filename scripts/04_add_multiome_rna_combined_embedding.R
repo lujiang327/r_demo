@@ -204,9 +204,10 @@ proj <- addUMAP(
   ArchRProj = proj,
   reducedDims = "LSI_Combined",
   name = "UMAP_Combined",
-  nNeighbors = 30,
-  minDist = 0.4,
-  metric = "cosine",
+  dimsToUse = combined_umap_dims_to_use,
+  nNeighbors = combined_umap_n_neighbors,
+  minDist = combined_umap_min_dist,
+  metric = combined_umap_metric,
   force = TRUE
 )
 

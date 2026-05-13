@@ -1,5 +1,5 @@
 "stage","sample_id","group","n_cells","sample_total","proportion","percent"
-"mg_candidate","TH1","MG_candidate",8255,15601,0.529132747900776,52.9132747900776
-"mg_candidate","TH1","Not_MG_candidate",7346,15601,0.470867252099224,47.0867252099224
-"mg_candidate","TH2","MG_candidate",8368,15932,0.525232237007281,52.5232237007281
-"mg_candidate","TH2","Not_MG_candidate",7564,15932,0.474767762992719,47.4767762992719
+"mg_candidate","TH1","MG_candidate",8249,14260,0.578471248246844,57.8471248246844
+"mg_candidate","TH1","Not_MG_candidate",6011,14260,0.421528751753156,42.1528751753156
+"mg_candidate","TH2","MG_candidate",8342,14602,0.571291603889878,57.1291603889878
+"mg_candidate","TH2","Not_MG_candidate",6260,14602,0.428708396110122,42.8708396110122

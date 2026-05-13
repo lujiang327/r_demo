@@ -128,6 +128,46 @@ plot_delta <- function(comparison_df, title, path_prefix, max_groups = Inf) {
   invisible(p)
 }
 
+plot_grouped_cluster_percent <- function(prop_df, title, path_prefix) {
+  plot_df <- prop_df
+  plot_df$sample_id <- factor(plot_df$sample_id, levels = sample_order)
+  plot_df$group <- factor(plot_df$group, levels = sort(unique(plot_df$group)))
+
+  p <- ggplot(plot_df, aes(x = group, y = percent, fill = sample_id)) +
+    geom_col(position = position_dodge(width = 0.78), width = 0.7) +
+    scale_fill_manual(values = c(TH1 = "#4C78A8", TH2 = "#E45756"), drop = FALSE) +
+    labs(x = "Combined cluster", y = "Cells (%)", fill = NULL, title = title) +
+    theme_classic(base_size = 12) +
+    theme(
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "top"
+    )
+
+  ggsave(paste0(path_prefix, ".pdf"), p, width = 9, height = 4.8)
+  ggsave(paste0(path_prefix, ".png"), p, width = 9, height = 4.8, dpi = 180)
+  invisible(p)
+}
+
+plot_cluster_ratio <- function(comparison_df, title, path_prefix) {
+  plot_df <- comparison_df[order(comparison_df$group), , drop = FALSE]
+  plot_df$group <- factor(plot_df$group, levels = plot_df$group)
+
+  p <- ggplot(plot_df, aes(x = group, y = ratio_percent_TH2_over_TH1)) +
+    geom_hline(yintercept = 1, linetype = "dashed", color = "grey45", linewidth = 0.35) +
+    geom_col(width = 0.72, fill = "#7B3294") +
+    labs(x = "Combined cluster", y = "Ratio of cell percentage (TH2 / TH1)", title = title) +
+    theme_classic(base_size = 12) +
+    theme(
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+
+  ggsave(paste0(path_prefix, ".pdf"), p, width = 9, height = 4.8)
+  ggsave(paste0(path_prefix, ".png"), p, width = 9, height = 4.8, dpi = 180)
+  invisible(p)
+}
+
 celltype_props <- count_proportions(cell_metadata, "celltype_for_proportion", "tentative_celltype")
 cluster_props <- count_proportions(cell_metadata, "Clusters_Combined", "clusters_combined")
 mg_candidate_props <- count_proportions(cell_metadata, "mg_candidate_for_proportion", "mg_candidate")
@@ -164,6 +204,16 @@ plot_delta(
   title = "Top combined cluster proportion differences",
   path_prefix = file.path(proportion_dir, "cluster_proportion_delta_top20"),
   max_groups = 20
+)
+plot_grouped_cluster_percent(
+  cluster_props,
+  title = "Combined cluster percentages by sample",
+  path_prefix = file.path(proportion_dir, "cluster_percent_by_sample_grouped")
+)
+plot_cluster_ratio(
+  cluster_comparison,
+  title = "Combined cluster percentage ratio",
+  path_prefix = file.path(proportion_dir, "cluster_percent_ratio_TH2_over_TH1")
 )
 plot_stacked_proportions(
   mg_candidate_props,

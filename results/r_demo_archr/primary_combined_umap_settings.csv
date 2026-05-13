@@ -1,0 +1,8 @@
+"setting","value"
+"reduced_dims","LSI_Combined"
+"embedding","UMAP_Combined"
+"dims_to_use","1:40"
+"n_neighbors","30"
+"min_dist","0.4"
+"metric","cosine"
+"note","Primary combined UMAP selected after parameter review."
