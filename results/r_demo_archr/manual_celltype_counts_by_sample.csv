@@ -1,0 +1,21 @@
+"manual_celltype","sample_id","n_cells"
+"AC","TH1",1319
+"Cone","TH1",726
+"HC","TH1",80
+"nPRC","TH1",1453
+"Pre-AC","TH1",787
+"Pre-Rod","TH1",1354
+"pRPC","TH1",7120
+"RGC","TH1",622
+"Rod","TH1",650
+"Starburst AC","TH1",149
+"AC","TH2",1113
+"Cone","TH2",543
+"HC","TH2",33
+"nPRC","TH2",1125
+"Pre-AC","TH2",575
+"Pre-Rod","TH2",2004
+"pRPC","TH2",7695
+"RGC","TH2",447
+"Rod","TH2",971
+"Starburst AC","TH2",96
