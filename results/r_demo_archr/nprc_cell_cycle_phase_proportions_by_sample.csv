@@ -1,0 +1,7 @@
+"stage","sample_id","group","n_cells","sample_total","proportion","percent"
+"nPRC_cell_cycle_phase","TH1","G1",321,1453,0.220922229869236,22.0922229869236
+"nPRC_cell_cycle_phase","TH1","S",500,1453,0.344115622849277,34.4115622849277
+"nPRC_cell_cycle_phase","TH1","G2M",632,1453,0.434962147281487,43.4962147281487
+"nPRC_cell_cycle_phase","TH2","G1",372,1125,0.330666666666667,33.0666666666667
+"nPRC_cell_cycle_phase","TH2","S",358,1125,0.318222222222222,31.8222222222222
+"nPRC_cell_cycle_phase","TH2","G2M",395,1125,0.351111111111111,35.1111111111111

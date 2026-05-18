@@ -1,0 +1,7 @@
+"cell_cycle_phase","sample_id","n_cells"
+"G1","TH1",1919
+"S","TH1",2572
+"G2M","TH1",2629
+"G1","TH2",2279
+"S","TH2",2885
+"G2M","TH2",2531

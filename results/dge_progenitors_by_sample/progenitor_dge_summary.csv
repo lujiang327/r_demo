@@ -1,0 +1,3 @@
+"celltype_output_label","manual_celltype","n_cells_TH1","n_cells_TH2","n_genes_tested","n_higher_TH2","n_higher_TH1","all_results_csv","significant_results_csv"
+"pRPC","pRPC",7120,7695,9114,297,352,"results/dge_progenitors_by_sample/pRPC_TH2_vs_TH1_rna_dge_all.csv","results/dge_progenitors_by_sample/pRPC_TH2_vs_TH1_rna_dge_significant.csv"
+"nRPC","nPRC",1453,1125,10185,490,399,"results/dge_progenitors_by_sample/nRPC_TH2_vs_TH1_rna_dge_all.csv","results/dge_progenitors_by_sample/nRPC_TH2_vs_TH1_rna_dge_significant.csv"

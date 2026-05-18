@@ -220,6 +220,13 @@ p_manual <- plotEmbedding(
   name = manual_col,
   embedding = "UMAP_Combined"
 )
+p_manual_no_labels <- plotEmbedding(
+  ArchRProj = proj,
+  colorBy = "cellColData",
+  name = manual_col,
+  embedding = "UMAP_Combined",
+  labelMeans = FALSE
+)
 p_cluster <- plotEmbedding(
   ArchRProj = proj,
   colorBy = "cellColData",
@@ -249,6 +256,7 @@ file.copy(
   overwrite = TRUE
 )
 ggsave(file.path(manual_dir, "manual_celltypes_umap.png"), p_manual, width = 6, height = 6, dpi = 180)
+ggsave(file.path(manual_dir, "manual_celltypes_umap_no_cluster_numbers.png"), p_manual_no_labels, width = 6, height = 6, dpi = 180)
 
 sample_order <- unique(cell_metadata$Sample)
 if (all(c("TH1", "TH2") %in% sample_order)) {
